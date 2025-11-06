@@ -1,0 +1,31 @@
+# Bytecode and caches
+__pycache__/
+*.pyc
+
+# Virtual environments
+env/
+venv/
+ENTER/
+*.egg-info/
+
+# Large data & model files
+data/
+*.csv
+*.npy
+*.npz
+*.h5
+*.keras
+*.ckpt
+
+# Generated outputs
+models/*/checkpoints/
+models/*/predictions/
+models/*/errors/sample_misclassified/
+models/*/explainability/
+*.png
+*.jpg
+
+# IDE and system
+.vscode/
+.idea/
+.DS_Store
