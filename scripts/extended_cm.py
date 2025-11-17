@@ -4,5 +4,5 @@ import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.analyze import extended_confusion_matrix
 
-model_dir = '/home/pb929/Projects/Malaria_Classification/models/cnn_rgbs_5l'
+model_dir = './models/kfold_cnn_rgbs_5l/fold_5'
 extended_confusion_matrix(model_dir)

@@ -1,8 +1,8 @@
 #convert classification report txt file to json file
-
+#for cases where the json file was not saved during model training
 import re, json
 
-with open("/home/pb929/Projects/Malaria_Classification/models/cnn_rgbs_5l/classification_report.txt", "r") as f:
+with open("./models/cnn_rgbs_5l/classification_report.txt", "r") as f:
     text = f.read()
 
 # Match label names and 4 numeric columns
@@ -27,5 +27,5 @@ if acc_match:
     report["accuracy"] = {"accuracy": float(accuracy), "support": float(support)}
 
 
-with open("/home/pb929/Projects/Malaria_Classification/models/cnn_rgbs_5l/classification_report.json", "w") as f:
+with open("./models/cnn_rgbs_5l/classification_report.json", "w") as f:
     json.dump(report, f, indent=2)

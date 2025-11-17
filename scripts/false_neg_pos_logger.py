@@ -4,5 +4,5 @@ import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.analyze import log_false_negatives_positives
 
-model_dir = '/home/pb929/Projects/Malaria_Classification/models/cnn_rgbs_5l'
+model_dir = './models/kfold_cnn_rgbs_5l/fold_5'  # adjust as needed
 log_false_negatives_positives(model_dir)

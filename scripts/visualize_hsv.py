@@ -3,12 +3,12 @@
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.visualize import plot_hsv
-img_path = "/home/pb929/Projects/Malaria_Classification/data/cell_images/test/uninfected/C68P29N_ThinF_IMG_20150819_134504_cell_167.png"
+img_path = "./data/cell_images/test/uninfected/C68P29N_ThinF_IMG_20150819_134504_cell_167.png"
 
 if "parasitized" in img_path:
-    model_dir = "/home/pb929/Projects/Malaria_Classification/models/test3/samples/parasitized"
+    model_dir = "./models/test3/samples/parasitized"
 elif "uninfected" in img_path:
-    model_dir = "/home/pb929/Projects/Malaria_Classification/models/test3/samples/uninfected"
+    model_dir = "./models/test3/samples/uninfected"
 else:
     print("Error: Cannot determine class from image path.")
    

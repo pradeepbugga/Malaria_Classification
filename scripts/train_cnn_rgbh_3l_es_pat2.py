@@ -15,8 +15,8 @@ random.seed(42)
 np.random.seed(42)
 tf.random.set_seed(42)  
 
-data_dir = '/home/pb929/Projects/Malaria_Classification/data/cell_images'
-output_dir='/home/pb929/Projects/Malaria_Classification/models/cnn_rgbh_3l_es_pat2'
+data_dir = './data/cell_images'
+output_dir='./models/cnn_rgbh_3l_es_pat2'
 
 train_gen, val_gen, (test_gen, test_filenames) = load_with_tf_datagenerator(data_dir, augment=True)
 model = cnn_rgbh_3l(picture_size=128)

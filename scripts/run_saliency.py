@@ -12,9 +12,9 @@ import cv2
 from src.gradcam_utils import saliency_rgb_only_sidebyside  # import your function
 
 if __name__ == "__main__":
-    model_dir = "/home/pb929/Projects/Malaria_Classification/models/cnn_rgbs_5l"
+    model_dir = "./models/kfold_cnn_rgbs_5l/fold_1"
     model_path = os.path.join(model_dir, "model.keras")
-    img_path = "/home/pb929/Projects/Malaria_Classification/data/cell_images/test/uninfected/C71P32_ThinF_IMG_20150813_163655_cell_33.png"
+    img_path = "./data/cell_images/train/parasitized/C180P141NThinF_IMG_20151201_163848_cell_140.png"
     
     # ---- Load model ----
     model = load_model(model_path)
@@ -32,5 +32,5 @@ if __name__ == "__main__":
     img, x = load_tensor_rgbs(img_path, picture_size)
 
     # ---- Run saliency ----
-    sal_map = saliency_rgb_only_sidebyside(model, x, save_path=os.path.join(model_dir, "explainability", "saliency_side_by_side.png"))
+    sal_map = saliency_rgb_only_sidebyside(model, x, target_class=0, save_path=os.path.join(model_dir, "explainability", "saliency_side_by_side.png"))
 
