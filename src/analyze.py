@@ -48,7 +48,7 @@ def view_images_by_probability(model_dir, bin_range=(0.2, 0.3), true_label=1, ma
     x=1
     for i, row in subset.head(max_images).iterrows():
         
-        img_path = f"/home/pb929/Projects/Malaria_Classification/data/cell_images/test/{row['filename']}"  
+        img_path = f"{row['filename']}"  
         print(img_path)
         img = mpimg.imread(img_path)
         if img is None:
@@ -84,8 +84,14 @@ def log_false_negatives_positives(model_dir):
     for i, row in subset_fn.iterrows():
         
         #write full path, true label, predicted label, and probability to json file
+        image_path = f"{row['filename']}"
+        index = image_path.find('/data')
+        image_path = image_path[index:]  # trim to start from /data
+        image_path = '.' + image_path  # make it relative path
+        
+
         false_negatives.append({
-            "image_path": f"/home/pb929/Projects/Malaria_Classification/data/cell_images/test/{row['filename']}",
+            "image_path": image_path,
             "true_label": int(row['y_true']),
             "predicted_label": int(row['y_pred']),
             "predicted_probability": float(row['y_prob'])
@@ -93,10 +99,14 @@ def log_false_negatives_positives(model_dir):
 
            
     for i, row in subset_fp.iterrows():
-        
+        image_path = f"{row['filename']}"
+        index = image_path.find('/data')
+        image_path = image_path[index:]  # trim to start from /data
+        image_path = '.' + image_path  # make it relative path
+
         #write full path, true label, predicted label, and probability to json file
         false_positives.append({
-            "image_path": f"/home/pb929/Projects/Malaria_Classification/data/cell_images/test/{row['filename']}",
+            "image_path": f"{row['filename']}",
             "true_label": int(row['y_true']),
             "predicted_label": int(row['y_pred']),
             "predicted_probability": float(row['y_prob'])
@@ -107,6 +117,7 @@ def log_false_negatives_positives(model_dir):
     false_positives = sorted(false_positives, key=lambda x: x['predicted_probability'], reverse=True)   
 
     #save to json files
+    os.makedirs(os.path.join(model_dir, "misclassification"), exist_ok=True)
     with open(os.path.join(model_dir, "misclassification", 'false_negatives.json'), 'w') as fn_file:
         json.dump(false_negatives, fn_file, indent=4)   
     with open(os.path.join(model_dir, "misclassification", 'false_positives.json'), 'w') as fp_file:

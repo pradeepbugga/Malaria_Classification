@@ -38,7 +38,7 @@ def plot_confusion_matrix(model_dir, save_path=None):
     import os
 
     class_names = ['uninfected', 'parasitized']
-    cm = np.load(os.path.join(model_dir, "confusion_matrix.npy"))
+    cm = np.load(os.path.join(model_dir, "reports", "confusion_matrix.npy"))
     plt.figure(figsize=(6, 5))
     sns.heatmap(cm, annot=True, fmt='g', xticklabels=class_names, yticklabels=class_names)
     plt.ylabel('Actual')
