@@ -61,7 +61,7 @@ def load_with_imagedatagenerator(data_dir, picture_size=128, batch_size=32, clas
     
     return train_generator, val_generator, (test_generator, test_generator.filenames)
 
-def load_with_tf_datagenerator(data_dir, picture_size=128, batch_size=32, class_order=None, augment= False, preprocessing_fn=None):
+def load_with_tf_datagenerator(data_dir, picture_size=128, batch_size=32, class_order=None, augment= False):
     if class_order is None:
         class_order = ['uninfected','parasitized']
     
@@ -257,5 +257,61 @@ def load_for_dual_rgb_hsv(data_dir, picture_size=128, batch_size=32, class_order
     return train_2_arm, val_2_arm, (test_2_arm, test_generator.filenames), train_stpes, val_steps, test_steps
         
     
+def load_with_tf_dataset_tensor_for_kfold(paths, labels, picture_size=128, batch_size=32, class_order=None, augment= False):
+    if class_order is None:
+        class_order = ['uninfected','parasitized']
+
+    ds = tf.data.Dataset.from_tensor_slices((paths, labels))
+
+    def load_and_preprocess_image(path, label):
+        # Load image
+        image = tf.io.read_file(path)
+        image = tf.image.decode_png(image, channels=3)
+        image = tf.image.resize(image, [picture_size, picture_size])
+        return image, label
+
+    ds = ds.map(load_and_preprocess_image, num_parallel_calls=tf.data.AUTOTUNE)
+
+        # --- Augmentation function (Apply to training set only) ---
+    def augment_func(image, label):
+        # Rotation (The tf.image function handles the random angle)
+        image = tf.image.rot90(
+            image, 
+            k=tf.random.uniform(shape=[], minval=0, maxval=4, dtype=tf.int32)
+        )
+        # Flips
+        image = tf.image.random_flip_left_right(image)
+        image = tf.image.random_flip_up_down(image)
+        
+        return image, label
+
+    def tf_rgbs_map_func(image, label):
+        """
+        Performs RGB to RGBS conversion using only TensorFlow operations.
+        This replaces numpy_to_rgbh and map_func to eliminate RAM overhead.
+        """
+        
+        # 1. Normalize RGB (Input is uint8, output is float [0, 1])
+        image_float = tf.cast(image, tf.float32) / 255.0
+
+        # 2. Convert to HSV using native TensorFlow
+        # Output is float [0, 1] for H, S, V.
+        img_hsv = tf.image.rgb_to_hsv(image_float) 
+        
+        # 3. Extract S channel (S is the second channel)
+        # Use slicing [:, :, 1:2] to maintain the channel dimension (H, W, 1)
+        S_normalized_tf = img_hsv[:, :, 1:2] 
+
+        # 4. Stack RGB (3 channels) + S (1 channel)
+        # tf.concat works efficiently on the GPU/CPU without creating NumPy copies.
+        rgbs_image = tf.concat([image_float, S_normalized_tf], axis=-1)
+        
+        return rgbs_image, label
+
+    ds = ds.map(tf_rgbs_map_func, num_parallel_calls=tf.data.AUTOTUNE)
+    if augment:
+        ds = ds.map(augment_func, num_parallel_calls=tf.data.AUTOTUNE)
     
-   
+    ds = ds.batch(batch_size).prefetch(buffer_size=tf.data.AUTOTUNE)
+    
+    return ds

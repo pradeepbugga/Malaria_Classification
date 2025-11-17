@@ -32,7 +32,8 @@ def train_and_save(model, train_gen, val_gen, test_gen, filenames, output_dir, l
     history=model.fit(train_gen, validation_data=val_gen, epochs=epochs, steps_per_epoch = steps_per_epoch, validation_steps = validation_steps, callbacks=callbacks, verbose=1)
 
     #save history
-    with open(os.path.join(output_dir, "history.json"), "w") as f:
+    os.makedirs(os.path.join(output_dir, "logs"), exist_ok=True)
+    with open(os.path.join(output_dir, "logs", "history.json"), "w") as f:
         json.dump(history.history, f)
 
     y_pred = model.predict(test_gen, steps=test_steps)
@@ -55,7 +56,8 @@ def train_and_save(model, train_gen, val_gen, test_gen, filenames, output_dir, l
     report_rounded = {
     str(k): {m: round(v, 2) for m, v in metrics.items()}
     for k, metrics in report.items()
-}
+    }
+    os.makedirs(os.path.join(output_dir, "reports"), exist_ok=True)
     with open(os.path.join(output_dir, "reports", "classification_report.json"), "w") as f:
         json.dump(report_rounded, f, indent=2)
 
@@ -70,5 +72,61 @@ def train_and_save(model, train_gen, val_gen, test_gen, filenames, output_dir, l
         'y_prob': y_pred.flatten()
     })
 
-    df.to_csv(os.path.join(output_dir, "predictions.csv"), index=False)
+    os.makedirs(os.path.join(output_dir, "predictions"), exist_ok=True)
+    df.to_csv(os.path.join(output_dir, "predictions", "predictions.csv"), index=False)
 
+def train_and_save_kfold(model, train_ds, val_ds, all_paths, all_labels, val_idx, output_dir, fold, learning_rate =0.001, use_EarlyStopping = False, use_ReduceLROnPlateau = False,
+                    es_patience=3, rlrop_patience=3, epochs=20, steps_per_epoch=None, validation_steps=None, test_steps=None):
+    os.makedirs(output_dir, exist_ok=True)
+
+    model.compile(loss='binary_crossentropy',
+                  optimizer=Adam(learning_rate=learning_rate),
+                  metrics=['accuracy'])
+
+
+    callbacks = []
+    if use_EarlyStopping:
+        callbacks.append(
+            EarlyStopping(monitor='val_loss', patience=es_patience)
+        )
+    if use_ReduceLROnPlateau:
+        callbacks.append(
+            ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3, min_lr=0.0001, verbose=1, cooldown=0)
+            )
+    callbacks.append(
+            ModelCheckpoint(os.path.join(output_dir,"model.keras"), monitor='val_loss', save_best_only=True))
+
+    history=model.fit(train_ds, validation_data=val_ds, epochs=epochs, steps_per_epoch = steps_per_epoch, validation_steps = validation_steps, callbacks=callbacks, verbose=1)
+
+    #save history
+    os.makedirs(os.path.join(output_dir, "logs"), exist_ok=True)
+    with open(os.path.join(output_dir, "logs", "history.json"), "w") as f:
+        json.dump(history.history, f)
+
+    y_pred = model.predict(val_ds, steps=test_steps)
+    y_pred_classes = (y_pred > 0.5).astype(int)
+
+    y_true = np.array(all_labels)[val_idx]
+    paths = np.array(all_paths)[val_idx]
+
+    report = classification_report(y_true, y_pred_classes, output_dict=True)
+    report_rounded = {str(k): ({m: round(v, 2) for m, v in metrics.items() } if isinstance(metrics, dict) else round(metrics, 2) ) for k, metrics in report.items()  
+                     }
+
+    os.makedirs(os.path.join(output_dir, "reports"), exist_ok=True)
+    with open(os.path.join(output_dir, "reports", "classification_report.json"), "w") as f:
+        json.dump(report_rounded, f, indent=2)
+
+
+    np.save(os.path.join(output_dir, "reports", "confusion_matrix.npy"), confusion_matrix(y_true, y_pred_classes))
+
+    # make table
+    df = pd.DataFrame({
+        'filename': paths,
+        'y_true': y_true.flatten(),
+        'y_pred': y_pred_classes.flatten(),
+        'y_prob': y_pred.flatten()
+    })
+
+    os.makedirs(os.path.join(output_dir, "predictions"), exist_ok=True)
+    df.to_csv(os.path.join(output_dir, "predictions", "predictions.csv"), index=False)
