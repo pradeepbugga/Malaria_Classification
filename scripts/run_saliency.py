@@ -1,5 +1,5 @@
-#run_gradcam.py
-# This script runs the Grad-CAM visualization on a given image using a pre-trained model
+#run_saliency.py
+# This script runs the saliency map visualization on a given image to show model reasoning
 
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
