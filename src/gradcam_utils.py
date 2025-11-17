@@ -2,7 +2,7 @@
 #this file contains utility functions for Grad-CAM visualization
 import tensorflow as tf
 import numpy as np
-import cv2
+import cv2, os
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import matplotlib
@@ -35,8 +35,8 @@ def load_tensor_rgbs(path, target_size=128):
     rgb = img_to_array(img).astype("float32") / 255.0
     hsv = tf.image.rgb_to_hsv(rgb)
     S = hsv[:, :, 1:2]  # pick the S channel for example
-    rgbh = tf.concat([rgb, S], axis=-1)
-    return img, np.expand_dims(rgbh.numpy(), 0)
+    rgbs = tf.concat([rgb, S], axis=-1)
+    return img, np.expand_dims(rgbs.numpy(), 0)
 
 def compute_gradcam(feature_extractor, classifier, img_tensor):
     # Compute Grad-CAM for the given image tensor.
@@ -107,7 +107,7 @@ def generate_gradcam(model_path, img_path, last_conv_name, output_path, picture_
 
 def saliency_rgb_only(model, img_tensor):
     """Compute RGB-only input saliency (gradient magnitude)."""
-    import tensorflow as tf, numpy as np, cv2
+    
 
     if isinstance(img_tensor, np.ndarray):
         img_tensor = tf.convert_to_tensor(img_tensor, dtype=tf.float32)
@@ -130,12 +130,12 @@ def saliency_rgb_only(model, img_tensor):
     over = cv2.addWeighted(cv2.cvtColor(base, cv2.COLOR_RGB2BGR), 0.5, heat, 0.5, 0)
     return cv2.cvtColor(over, cv2.COLOR_BGR2RGB)
 
-def saliency_rgb_only_sidebyside(model, img_tensor, save_path=None):
+def saliency_rgb_only_sidebyside(model, img_tensor, target_class = 1,   save_path=None):
     """
     Compute RGB-only input saliency (gradient magnitude),
     overlay it on the RGB image, and place both side by side.
     """
-    import tensorflow as tf, numpy as np, cv2, os
+    
 
     # Ensure tensor
     if isinstance(img_tensor, np.ndarray):
@@ -145,7 +145,14 @@ def saliency_rgb_only_sidebyside(model, img_tensor, save_path=None):
     with tf.GradientTape() as tape:
         tape.watch(img_tensor)
         preds = model(img_tensor, training=False)
-        y = tf.math.log(preds[:, 0] / (1 - preds[:, 0]))
+        logits = tf.math.log(preds / (1 - preds +1e-8))
+        
+        if target_class == 1:
+            y = logits[:, 0]
+        elif target_class == 0:   
+            y = -logits[:, 0]
+        else:
+            raise ValueError("target_class must be 0 or 1")
 
     grads_input = tape.gradient(y, img_tensor)[0].numpy()  # (H,W,4)
     rgb_grad = grads_input[..., :3]
@@ -171,3 +178,58 @@ def saliency_rgb_only_sidebyside(model, img_tensor, save_path=None):
         cv2.imwrite(save_path, cv2.cvtColor(combined, cv2.COLOR_RGB2BGR))
 
     return combined
+
+def contrastive_saliency(model, img_tensor, target_size=128):
+    """
+    Compute contrastive saliency map for binary classifier:
+    highlights regions that push decision toward class=1 (infected)
+    vs class=0 (uninfected).
+    """
+    img_tensor = tf.convert_to_tensor(img_tensor, dtype=tf.float32)
+    img_tensor = tf.ensure_shape(img_tensor, [1, target_size, target_size, 4])
+
+    # --- Compute gradients for positive (infected) logit ---
+    with tf.GradientTape(persistent=True) as tape:
+        tape.watch(img_tensor)
+        preds_pos = model(img_tensor, training=False)
+        logit = tf.math.log(preds_pos / (1 - preds_pos + 1e-8))  # infected
+    
+        logit_pos = logit
+        logit_neg = -logit  # opposite class
+    grads_pos = tape.gradient(logit_pos, img_tensor)[0].numpy()
+    grads_neg = tape.gradient(logit_neg, img_tensor)[0].numpy()
+    del tape
+
+    # --- Compute contrastive gradient map ---
+    contrast = np.mean(np.abs(grads_pos - grads_neg), axis=-1)
+    contrast = (contrast - contrast.min()) / (contrast.max() - contrast.min() + 1e-8)
+
+    return contrast, grads_pos, grads_neg
+
+def show_contrastive_saliency(img_tensor, contrast_map, prob, save_path=None, show=True):
+    import matplotlib
+    matplotlib.use("TkAgg") 
+    rgb = img_tensor[0, ..., :3]
+    rgb = (rgb - rgb.min()) / (rgb.max() - rgb.min() + 1e-8)
+    base = (rgb * 255).astype(np.uint8)
+
+    heat = cv2.applyColorMap((contrast_map * 255).astype(np.uint8), cv2.COLORMAP_JET)
+    over = cv2.addWeighted(cv2.cvtColor(base, cv2.COLOR_RGB2BGR), 0.5, heat, 0.5, 0)
+    over_rgb = cv2.cvtColor(over, cv2.COLOR_BGR2RGB)
+
+    plt.figure(figsize=(8, 4))
+    plt.subplot(1, 2, 1)
+    plt.imshow(base)
+    plt.title("Original", fontsize=23)
+    plt.axis("off")
+
+    plt.subplot(1, 2, 2)
+    plt.imshow(over_rgb)
+    plt.title(f"Model Explanation", fontsize = 23)
+    plt.axis("off")
+
+    if save_path:
+        plt.savefig(save_path, bbox_inches="tight", dpi=1200)
+    if show:
+        plt.show(block=False)
+    plt.close()
