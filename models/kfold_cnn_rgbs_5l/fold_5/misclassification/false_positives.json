@@ -1,0 +1,296 @@
+[
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C121P82ThinF_IMG_20151002_133158_cell_62.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.9999894
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/test/uninfected/C68P29N_ThinF_IMG_20150819_134712_cell_1.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.9982703
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C151P112ThinF_IMG_20151115_122342_cell_3.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.99384296
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C104P65ThinF_IMG_20150918_172537_cell_67.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.9911869
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C143P104ThinF_IMG_20151005_225623_cell_171.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.9892223
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C99P60ThinF_IMG_20150918_142128_cell_90.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.98053086
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C205ThinF_IMG_20151106_152003_cell_221.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.9690184
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C116P77ThinF_IMG_20150930_171844_cell_113.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.95231646
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C50P11thinF_IMG_20150724_120716_cell_135.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.94826466
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C174P135NThinF_IMG_20151127_135342_cell_55.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.94415134
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C93P54ThinF_IMG_20150821_163815_cell_215.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.9360916
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C99P60ThinF_IMG_20150918_141001_cell_137.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.92869425
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C222ThinF_IMG_20151115_151211_cell_34.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.91802806
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C139P100ThinF_IMG_20151005_183521_cell_58.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.91325134
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C42P5thin_original_IMG_20150623_134547_cell_160.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.88574606
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C139P100ThinF_IMG_20151005_182822_cell_163.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.86289483
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C226ThinF_IMG_20151112_131546_cell_29.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.85685503
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C45P6ThinF_IMG_20151130_155110_cell_175.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.8502761
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C91P52ThinF_IMG_20150821_124739_cell_39.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.84553903
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C222ThinF_IMG_20151115_150728_cell_203.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.83572835
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C221ThinF_IMG_20151106_160515_cell_52.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.8355913
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C68P29N_ThinF_IMG_20150819_134712_cell_47.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.8086018
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C123P84ThinF_IMG_20151002_151143_cell_22.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.78648335
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C129P90ThinF_IMG_20151004_133921_cell_96.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.7808673
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C68P29N_ThinF_IMG_20150819_133350_cell_130.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.7764019
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/test/uninfected/C68P29N_ThinF_IMG_20150819_133236_cell_178.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.76804334
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C72P33_ThinF_IMG_20150815_104307_cell_66.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.76072484
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C102P63ThinF_IMG_20150918_162051_cell_141.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.7169897
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C60P21thinF_IMG_20150803_144003_cell_1.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.69322366
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C183P144NThinF_IMG_20151201_222917_cell_143.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.6813665
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C46P7ThinF_IMG_20151130_210938_cell_125.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.68001187
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C220ThinF_IMG_20151106_154533_cell_132.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.67384684
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C95P56ThinF_IMG_20150821_171751_cell_44.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.67102164
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C148P109ThinF_IMG_20151115_112855_cell_245.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.65208477
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C215ThinF_IMG_20151106_133116_cell_155.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.6437973
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C7NthinF_IMG_20150611_104404_cell_117.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.64027846
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/test/uninfected/C4thin_original_IMG_20150608_165620_cell_204.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.6329242
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/test/uninfected/C6NThinF_IMG_20150609_122725_cell_89.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.6167116
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C231ThinF_IMG_20151112_153106_cell_172.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.6139925
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C208ThinF_IMG_20151029_155411_cell_11.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.612041
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C210ThinF_IMG_20151029_162439_cell_188.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.61182994
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C175P136NThinF_IMG_20151127_141253_cell_27.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.60136956
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C45P6ThinF_IMG_20151130_155011_cell_64.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.5742131
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C171P132ThinF_IMG_20151119_153425_cell_145.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.5682174
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/test/uninfected/C45P6ThinF_IMG_20151130_160135_cell_114.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.549665
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C87P48ThinF_IMG_20150820_141913_cell_64.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.5478139
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C154P115ThinF_IMG_20151115_141621_cell_99.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.54752386
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C203ThinF_IMG_20151029_105443_cell_252.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.54363966
+    },
+    {
+        "image_path": "/home/pb929/Projects/Malaria_Classification/data/cell_images/train/uninfected/C103P64ThinF_IMG_20150918_164553_cell_46.png",
+        "true_label": 0,
+        "predicted_label": 1,
+        "predicted_probability": 0.5331696
+    }
+]
