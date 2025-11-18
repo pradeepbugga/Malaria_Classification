@@ -1,49 +1,49 @@
-Malaria Cell Image Classification with CNNs and Saliency Maps
+**Malaria Cell Image Classification with CNNs and Saliency Maps** <br><br>
 
 A convolutional neural network (CNN) for classifying parasitized ("infected") vs "uninfected" thin blood smears
-Includes K-fold cross validation, MLflow experiment tracking, and explainability via contrastive saliency maps
+Includes K-fold cross validation, MLflow experiment tracking, and explainability via contrastive saliency maps <br><br>
 
------Problem Statement-----
+-----*Problem Statement*-----
 Current malaria detection from thick blood smears is a manual, time-consuming process requiring medical expertise in low-resource settings.
-Deep learning approaches can standardize classification while also providing cost and time savings.  
+Deep learning approaches can standardize classification while also providing cost and time savings.  <br><br>
 
------Dataset Description-----
+-----*Dataset Description*-----
 The thin blood smear images can be found at the National Library of Medicine (NLM) (https://lhncbc.nlm.nih.gov/LHC-research/LHC-projects/image-processing/malaria-datasheet.html)
 There are 27,558 total annotated RGB images (half "infected", half "uninfected")
 For model development, 2,600 images are held out as a test set (1300 each class).  
 
-The datasets are placed in ./data/cell_images/train or ./data/cell_images/test,  and within each of those folders is a sub-folder called "parasitized" or "uninfected"
+The datasets are placed in ./data/cell_images/train or ./data/cell_images/test,  and within each of those folders is a sub-folder called "parasitized" or "uninfected" <br><br>
 
------Data Pre-Processing/Loading-----
+-----*Data Pre-Processing/Loading*-----
 ./src/preprocessing.py contains functions for converting the RGB images to either HSV or CLAHE image arrays
-./src/visualize.py contains functions for visualizing the RGB images converted to HSV, CLAHE, or RGBS (RGB + S channel of HSV) (to be used with ./scripts/visualize_*.py)
+./src/visualize.py contains functions for visualizing the RGB images converted to HSV, CLAHE, or RGBS (RGB + S channel of HSV) (to be used with ./scripts/visualize_*.py) 
 
 ./src/data_loader.py contains the functions for loading the dataset via data generator for model training
-Within these functions is also augmentation and feature engineering (RGB-> RGBH or RGB-> RGBS)
+Within these functions is also augmentation and feature engineering (RGB-> RGBH or RGB-> RGBS) <br><br>
 
------Model Architecture-----
+-----*Model Architecture*-----
 ./src/model_builder.py contains all the model architectures used in development 
 ./scripts/train_cnn*.py trains the corresponding models, then outputs results in the ./models folder (model.keras, /logs/history, /reports/classification report, /reports/confusion matrix, /predictions/predictions CSV)
-./scripts/train_cnn_rgbs_5l.py corresponds to our ultimate model that achieved 99% accuracy, precision, and recall
+./scripts/train_cnn_rgbs_5l.py corresponds to our ultimate model that achieved 99% accuracy, precision, and recall <br><br>
 
------Training Analysis-----
+-----*Training Analysis*-----
 ./src/visualize.py contains functions for plotting accuracy/loss from history and the confusion matrix (to be run with ./scripts/analyze_history.py and /visualize_cm.py)
-./src/analyze.py contains functions for plotting the extended confusion matrix (separated by 0.1 wide probability bins) (to be run with ./scripts/extended_cm.py) -> this outputs to ./models/reports
+./src/analyze.py contains functions for plotting the extended confusion matrix (separated by 0.1 wide probability bins) (to be run with ./scripts/extended_cm.py) -> this outputs to ./models/reports <br><br>
 
------False Positive/Negative Analysis-----
+-----*False Positive/Negative Analysis*-----
 ./src/analyze.py also contains functions for analyzing false positives and negatives
 ./scripts/false_neg_pos_logger.py logs all false positives and negatives to a .json file in ./models/misclassification
-./scripts/false_neg_pos_viewer.py allows visualization of false positive / false negative / true negative / true positive images by the actual label and predicted probability by bin (i.e. false positive in label = 0, predicted prob = 0.9-1.0)
+./scripts/false_neg_pos_viewer.py allows visualization of false positive / false negative / true negative / true positive images by the actual label and predicted probability by bin (i.e. false positive in label = 0, predicted prob = 0.9-1.0) <br><br>
 
-------AI Explainability Analysis------
+------*AI Explainability Analysis*------
 ./src/gradcam_utils.py has functions for either Grad-CAM, saliency, or contrastive saliency.
-./scripts/run_gradcam.py or /run_saliency.py or run_contrastive_saliency.py generate the corresponding maps given an image path (these output to ./models/explainability)
+./scripts/run_gradcam.py or /run_saliency.py or run_contrastive_saliency.py generate the corresponding maps given an image path (these output to ./models/explainability) <br><br>
 
-------Out-of-Fold Predictions (Label Noise Analysis)-------
+------*Out-of-Fold Predictions (Label Noise Analysis)*-------
 To identify all edge cases / potential mis-labels from the dataset, we perform k-fold validation, holding out a different fraction of the dataset for out-of-fold predictions.  
 We can group all the results at the end to get an understanding of the entire dataset
 ./scripts/kfold_train_rgbs_5l.py performs this process, merging the train and test folders, using the optimized cnn_rgbs_5l model from ./src/model_builder.py and a new data generator at ./src/data_loader.py
-The results are then outputted to folders corresponding to each fold (i.e. ./models/kfold_cnn_rgbs_5l/fold_*)
+The results are then outputted to folders corresponding to each fold (i.e. ./models/kfold_cnn_rgbs_5l/fold_*) <br>
 
 Next, we run ./scripts/false_neg_pos_logger.py to generate .json logs of all FP's and FN's for all 5 folds. (in ./models/kfold_cnn_rgbs_5l/fold_*/misclassification/)
 ./scripts/false_pos_neg_df.py then converts those .json logs into a Pandas dataframe, concatenates, then outputs to a .csv in ./models/kfold_cnn_rgbs_5l
@@ -51,12 +51,12 @@ Next, we run ./scripts/false_neg_pos_logger.py to generate .json logs of all FP'
 Next, we run ./scripts/false_pos_neg_saliency.py to generate contrastive saliency maps on each FP/FN image in the Pandas dataframe, saving the images in ./models/kfold_cnn_rgbs_5l/fold_*/explainability/saliency_maps, then adding a column in the df for the image paths
 
 Finally, we run ./scripts/html_gen.py to generate a gallery of false positives and negatives as an HTML file.  This gallery has the predicted probability, rank (by probability), and the side-by-side of the original image and contrastive saliency map
-These two htmls (one for false positive and one for false negative) are displayed on GitHub Pages and can be accessed at https://pradeepbugga.github.io/Malaria_Classification/
+These two htmls (one for false positive and one for false negative) are displayed on GitHub Pages and can be accessed at https://pradeepbugga.github.io/Malaria_Classification/ <br><br>
 
-------MLflow Logging------
-We retroactively log our models using ./scripts/log_existing_models.py to MLflow, specifically noting # false positives, negatives, f1-score, accuracy, precision, and recall.  This script logs models to a local MLflow server.
+------*MLflow Logging*------
+We retroactively log our models using ./scripts/log_existing_models.py to MLflow, specifically noting # false positives, negatives, f1-score, accuracy, precision, and recall.  This script logs models to a local MLflow server. <br><br>
 
------Summary-----
+-----*Summary*-----
 Our final model ("cnn_rgbs_5l") is a 5-layer convolutional neural network using input RGB images feature-engineered with the S channel of HSV color space (i.e. RGB+S).
 While our model demonstrated great performance, it is limited by label noise (incorrectly annotated images or images with artifacts).
 The final deliverable of this project is an html gallery showing these edge cases and the model's acknowledgement of any potential parasitic signatures.  An annotator can use this gallery to re-label edge cases, enabling a fully clean dataset for an ultra-accurate ML model.
